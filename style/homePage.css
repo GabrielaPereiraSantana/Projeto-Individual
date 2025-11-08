@@ -113,3 +113,108 @@ a {
     margin-top: -50px;
 
 }
+
+.nav-meio2 {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #fff8e79d;
+    height: 600px;
+
+}
+
+.cuidados {
+    color: #c2185b;
+    background-color: #fff8e79d;
+    text-align: center;
+    margin-top: 0%;
+    padding: 3% 0% 0% 0%;
+}
+
+.card {
+    width: 21%;
+    height: 70%;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    background-color: #ffc0cb;
+    margin: 10px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card #card1 {
+    width: 100%;
+    height: 50%;
+    margin-top: 0px;
+    margin-bottom: 10px;
+
+}
+
+.card #card2 {
+    width: 100%;
+    height: 50%;
+    max-width: 100%;
+    max-height: 100%;
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+
+.card #card3 {
+    width: 100%;
+    height: 50%;
+    max-width: 100%;
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+
+.card #card4 {
+    width: 100%;
+    height: 50%;
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+
+.card h3 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #efe8e3;
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+
+.card p {
+    font-size: 20px;
+    line-height: 2.0;
+    display: flex;
+    color: #00271A;
+    margin-bottom: 80px;
+    text-align: center;
+}
+
+.button-saiba-mais {
+    color: #c2185b;
+    margin-top: 10px;
+    margin-bottom: 2%;
+    background-color: #ffc0cb;
+    border-radius: 6px;
+    padding: 10px 50px;
+    cursor: pointer;
+    border: none;
+    font-weight: 500;
+    font-size: 15px;
+    transition: background 0.3s;
+}
+
+.button-saiba-mais:hover {
+    background-color: #f7f2efbc;
+}
