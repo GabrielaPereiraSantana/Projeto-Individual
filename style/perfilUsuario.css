@@ -13,7 +13,7 @@ body {
 }
 
 body {
-    background: #fff8e79d;
+    background: #fdf7ed;
     color: #c2185cbe;
     min-height: 100vh;
 }
@@ -123,10 +123,13 @@ body {
 .topbar-left {
     display: flex;
     align-items: center;
+     text-align: center;
+    margin-bottom: 28px;
 }
 
 .topbar-left h1 {
     color: #c2185b;
+   
 }
 
 .user {
@@ -167,7 +170,7 @@ body {
     margin-top: -2%;
     margin-left: 1%;
 
-   
+
 }
 
 .editar label {
@@ -210,7 +213,7 @@ body {
 .input-container input:disabled {
     background-color: #fff;
     color: #333;
-  
+
 }
 
 .edit-icon {
