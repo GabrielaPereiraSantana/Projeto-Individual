@@ -1,0 +1,122 @@
+* {
+    margin: 0;
+    padding: 0;
+     font-family: "Poppins", sans-serif;
+}
+
+
+.main {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 690px;
+    background-color: #ffc0cb;
+    background-image: url("../img/telaLogin.jpg");
+    background-size: cover;
+    background-position: center;
+
+}
+
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 70%;
+    height: 75%;
+}
+
+
+.left-container {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    object-fit: cover;
+    width: 55%;
+    height: 100%;
+    background-color: rgba(245, 227, 235, 0.519);
+    border-radius: 5px;
+
+}
+
+.left-container h1 {
+    color: #c2185b;
+    text-align: center;
+    font-size: 40px;
+    margin-top: 185px;
+}
+
+.left-container h3 {
+    color: #c2185b;
+    text-align: center;
+    font-size: 25px;
+    margin-top: 17px;
+}
+
+.right-container {
+    width: 45%;
+    height: 100%;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    object-fit: contain;
+    background-color:   rgba(245, 227, 235, 0.74);
+    border-radius: 5px;
+}
+
+.right-container h1 {
+    color: #c2185b;
+    text-align: center;
+    margin-top: 80px;
+}
+
+h4 {
+    color: #c2185b;
+    margin-left: 120px;
+    margin-top: 30px;
+    font-size: 16px;
+}
+
+input {
+    width: 250px;
+    height: 15px;
+    padding: 10px;
+    border: 1px solid #fe8dc6;
+    border-radius: 8px;
+    outline: none;
+    font-size: 16px;
+    background-color: rgba(255, 255, 255, 0.8);
+    transition: 0.3s;
+    margin-left: 120px;
+    margin-top: 9px;
+    cursor: pointer;
+}
+
+.button {
+    color: #fff;
+    background-color: #c2185b;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-left: 200px;
+    margin-top: 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    width: 100px;
+    height: 40px;
+
+}
+
+p {
+    color: #c2185b;
+    text-align: center;
+    margin-top: 10px;
+}
+
+a {
+    color: #c2185b;
+}

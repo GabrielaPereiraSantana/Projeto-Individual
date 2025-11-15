@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="icon" href="../assets/img/cat-solid-full (1).svg" type="image/svg+xml">
+    <link rel="stylesheet" href="../style/cadastro.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+
+<body>
+    <div class="inicio">
+        <div class="container">
+            <div class="left-container">
+
+                <h1>Cadastre-se</h1>
+
+                <div class="Caixa-de-entrada">
+
+                    <h4>Nome Completo</h4>
+                    <input id="iptName" type="text" placeholder="Insira seu nome">
+                    <h4>Email</h4>
+                    <input id="iptEmail" type="email" placeholder="Insira seu email"> <br>
+                    <h4>Senha</h4>
+                    <input id="iptSenha" type="password" placeholder="Senha"> <br>
+                    <h4>Quantos gatinhos você tem?</h4>
+                    <input id="iptGato" type="number" placeholder="Insira um número">
+                    <div class="select">
+                        <h4>Qual seu Sexo?</h4>
+                        <select name="" id="sexo">
+                            <option value=""> Selecione </option>
+                            <option value="Feminino">Feminino</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="outro"> Prefiro não informar</option>
+                        </select>
+                    </div>
+                    <h4>Qual sua data de nascimento? </h4>
+                    <input id="iptDtNasc" type="date" placeholder="Insira sua idade">
+                    <p> Já tem uma conta? <a href="./Login.html"> Login </a> </p>
+                    <button class="button" onclick="cadastrarUsuario()"> Cadastrar </button>
+                </div>
+
+            </div>
+            <div class="right-container">
+                <h1>Bem Vindo(a)!</h1>
+                <h3> A Cat Journal</h3>
+            </div>
+
+            <p id="mensagem" class="mensagem"></p>
+
+<script>
+
+                function cadastrarUsuario() {
+                    console.log("Iniciando cadastro...");
+
+                    const nomeValor = iptName.value;
+                    const emailValor = iptEmail.value;
+                    const senhaValor = iptSenha.value;
+                    const qtdGatoValor = iptGato.value;
+                    const sexoValor = sexo.value;
+                    const dtNascValor = iptDtNasc.value;
+
+                    console.log(dtNascValor);
+
+                    console.log("Enviando dados para API...");
+
+                    fetch("http://localhost:3000/users/cadastrar", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            nome: nomeValor,
+                            email: emailValor,
+                            senha: senhaValor,
+                            qtdGato: qtdGatoValor,
+                            sexo: sexoValor,
+                            dtNasc: dtNascValor
+                        })
+                    })
+                        .then(resposta => resposta.json().then(data => ({ status: resposta.status, body: data })))
+                        .then(result => {
+                            const status = result.status;
+                            const dados = result.body;
+
+                            if (status === 201) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Cadastro realizado!",
+                                    text: `Bem-vindo(a), ${nomeValor}, à Cat Journal 🐾!`,
+                                    showConfirmButton: false,
+                                    timer: 2000
+                                }).then(() => {
+                                    window.location.href = "./Login.html";
+                                });
+
+                            } else if (status === 409) {
+                                Swal.fire({
+                                    icon: "warning",
+                                    title: "Ops!",
+                                    text: "Este e-mail já está cadastrado. Tente outro ou faça login.",
+                                    confirmButtonText: "Entendi",
+                                    confirmButtonColor: "#f8bb86"
+                                });
+
+                            } else {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Erro",
+                                    text: dados.message || "Erro ao cadastrar usuário."
+                                });
+                            }
+                        })
+                        .catch(erro => {
+                            mensagem.textContent = "Erro ao conectar com o servidor. Verifique se a API está rodando.";
+                            mensagem.className = "mensagem erro";
+                            console.error("Erro:", erro);
+                        });
+                }
+
+                const usuario = JSON.parse(sessionStorage.getItem("usuario"));
+                console.log(usuario);
+
+            </script>
+</body>
+
+</html>
