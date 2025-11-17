@@ -58,6 +58,12 @@ a {
 
 }
 
+.nav-item  a{
+    color: #c2185b;
+    font-size: 110%;
+  
+}
+
 
 .buttons {
     display: flex;
@@ -65,10 +71,10 @@ a {
     justify-content: center;
     align-items: center;
     text-align: center;
-    width: 50%;
+    width: 53%;
     border: none;
-    border-radius: 5px;
-    background-color: #c2185b;
+    border-radius: 0px;
+    background-color: #ffc0cb;
     color: #e599c3;
     font-weight: bold;
     height: 2rem;
@@ -88,7 +94,36 @@ a {
     color: #e599c3;
 }
 
+.nav-item h1 {
+  font-size: 1rem;
+  color: #b30059;
+  cursor: pointer;
+  transition: 0.3s;
+}
 
+.nav-item a:hover {
+   color: #6a1a44;
+}
+
+.buttons {
+  background-color: #b30059;
+  border: none;
+  border-radius: 10px;
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+}
+
+.buttons a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.buttons:hover {
+  background-color: #ff6699;
+}
+
+/* CONTEÚDO */
 .nav-meio {
     display: flex;
     flex-direction: row;

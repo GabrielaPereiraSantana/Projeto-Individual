@@ -21,12 +21,12 @@
             <h1>CatJournal</h1>
         </div>
 
-        <nav class="nav-sidebar">
+         <nav class="nav-sidebar">
             <ul>
                 <li><a class="fixar" id="perfil_li" href="../pages/perfilUsuario.html">Perfil</a></li>
                 <li><a href="#">Feed</a></li>
-                <li><a href="#">Quiz</a></li>
-                <li><a href="#">Dashboard</a></li>
+                <li><a href="../pages/preQuiz.html">Quiz</a></li>
+                <li><a id="dash_li" href="#">Dashboard</a></li>
                 <li id="admin_manager"><a href="../pages/gestaoUsuarios.html">Gestão de usuários</a></li>
 
             </ul>
@@ -91,12 +91,12 @@
         </section>
 
         <section class="dados-cadastrais">
-            <h6>Segurança (Alteração de Senha)</h6>
+            <h6>Segurança (Senha)</h6>
 
             <div class="editar">
                 <p>Senha Atual</p>
                 <div class="input-container">
-                    <input type="password" placeholder="********" pattern=".{8,}">
+                    <input type="password" placeholder="********">
                     <button id="botao_senha" onclick="toggleSenha(this)"> <i class="fas fa-eye edit-icon"></i> </button>
                 </div>
             </div>
@@ -107,3 +107,134 @@
     </main>
 
     <script>
+        window.onload = function () {
+    const userData = JSON.parse(sessionStorage.getItem("usuario"));
+
+    console.log(userData);
+
+    if (!userData) {
+        console.warn("Nenhum usuário no sessionStorage");
+        return;
+    }
+
+    const adminLi = document.getElementById("admin_manager");
+    const perfilLi = document.getElementById("perfil_li");
+    const dashboaardLi = document.getElementById("dash_li");
+
+    if (userData.papelUsuario === "admin") {
+        adminLi.style.display = "block";
+        perfilLi.style.display = "none";
+        dashboaardLi.style.display = "block";
+    } else {
+        adminLi.style.display = "none";
+        perfilLi.style.display = "block";
+        dashboaardLi.style.display = "none";
+    }
+};
+
+const usuario = JSON.parse(sessionStorage.getItem("usuario"));
+
+const inputs = document.getElementsByTagName("input");
+const selects = document.getElementsByTagName("select");
+const spans = document.getElementsByTagName("span");
+
+if (usuario) {
+    inputs[0].value = usuario.email || "usuario@catjournal.com";
+    inputs[1].value = usuario.qtdGato || "2";
+    selects[0].value = usuario.sexo || "Feminino";
+    inputs[2].value = formatarDataBrasileira(usuario.dtNasc) || "1990-01-01";
+    inputs[3].value = usuario.senha;
+    spans[0].textContent = usuario.nome;
+}
+
+const editIcons = document.getElementsByClassName("edit-icon");
+
+for (let i = 0; i < editIcons.length; i++) {
+    editIcons[i].addEventListener("click", function () {
+        const parent = this.parentNode;
+        const input = parent.getElementsByTagName("input")[0] || parent.getElementsByTagName("select")[0];
+        if (input) {
+            input.disabled = !input.disabled;
+            if (!input.disabled) input.focus();
+        }
+    });
+}
+
+function formatarDataParaMysql(dataBr) {
+    if (!dataBr) return null;
+
+    const partes = dataBr.split("/");
+    if (partes.length !== 3) return null;
+
+    const [dia, mes, ano] = partes;
+    return `${ano}-${mes}-${dia}`;
+}
+
+function formatarDataBrasileira(dataMysql) {
+    if (!dataMysql) return "";
+
+    const dataApenas = dataMysql.split("T")[0];
+    const partes = dataApenas.split("-");
+
+    if (partes.length !== 3) return dataMysql;
+
+    const [ano, mes, dia] = partes;
+    return `${dia}/${mes}/${ano}`;
+}
+
+function toggleSenha(botao) {
+    const input = botao.parentNode.querySelector("input");
+    const icone = botao.querySelector("i");
+
+    if (input.type === "password") {
+        input.type = "text";
+    } else {
+        input.type = "password";
+    }
+
+    icone.classList.toggle("fa-eye");
+    icone.classList.toggle("fa-eye-slash");
+}
+
+
+
+function botaoSalvar() {
+
+    const email = inputs[0].value;
+    const qtdGato = inputs[1].value;
+    const sexo = selects[0].value;
+    const dtNasc = inputs[2].value;
+    const senha = inputs[3].value;
+    const nome = spans[0].textContent;
+
+    const usuarioAtualizado = {
+        userId: usuario.id,
+        nome,
+        email,
+        qtdGato,
+        sexo,
+        dtNasc: formatarDataParaMysql(dtNasc),
+        senha
+    };
+
+    fetch(`http://localhost:3000/users/update/${usuarioAtualizado.userId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(usuarioAtualizado)
+    })
+        .then(resposta => resposta.json().then(data => ({ status: resposta.status, data })))
+        .then(result => {
+            if (result.status === 200) {
+                alert("Alterações salvas com sucesso!");
+                sessionStorage.setItem("usuario", JSON.stringify(usuarioAtualizado));
+            } else {
+                alert("Erro ao salvar: " + result.data.message);
+            }
+        })
+        .catch(error => {
+            console.error("Erro na atualização:", error);
+            alert("Erro ao conectar ao servidor.");
+        });
+}
+
+    </script>

@@ -45,8 +45,8 @@ function login(req, res) {
         return res.status(400).json({ message: "Campos obrigatórios não preenchidos." });
     }
 
-     userModel.login(email, senha)
-      .then((usuarioEncontrado) => {
+    userModel.login(email, senha)
+        .then((usuarioEncontrado) => {
 
             if (usuarioEncontrado == null) {
                 return res.status(404).json({ message: "Email ou senha inválidos" });
@@ -66,7 +66,76 @@ function login(req, res) {
         });
 }
 
+function usuarioId(req, res) {
+    const userId = req.params.id
+
+    if (userId == null) {
+        return res.status(400).json({
+            message: "ID não fornecido"
+        });
+    } userModel.usuarioId(userId)
+        .then((userEncontrado) => {
+
+            if (userEncontrado == null) {
+                return res.status(404).json({
+                    message: "Usuário não encontrado"
+                });
+            }
+
+            return res.status(200).json({
+                message: "Usuário encontrado",
+                data: userEncontrado
+            });
+
+        }).catch((error) => {
+            console.error("Erro ao buscar usuário:", error.message);
+            return res.status(500).json({
+                message: "ERROR INTERNO",
+                errorInfo: error.message
+            });
+        });
+}
+
+
+function update(req, res) {
+    const { nome, email, senha, qtdGato, sexo, dtNasc } = req.body;
+    const { id } = req.params;
+
+    userModel.UsuarioId(id)
+        .then((usuarioEncontrado) => {
+            if (usuarioEncontrado == null) {
+                return res.status(404).json({
+                    message: "Usuário não encontrado"
+                });
+            }
+
+            return userModel.update({ id, nome, email, senha, qtdGato, sexo, dtNasc });
+        })
+        .then((result) => {
+            if (!result) return; 
+
+            if (result.affectedRows > 0) {
+                return res.status(200).json({
+                    message: "Usuário atualizado com sucesso"
+                });
+            } else {
+                return res.status(400).json({
+                    message: "Nenhuma alteração realizada"
+                });
+            }
+        })
+        .catch((error) => {
+            console.error("Erro no update:", error);
+            res.status(500).json({
+                message: "ERROR INTERNO",
+                errorInfo: error.message
+            });
+        });
+}
+
 module.exports = {
     cadastrar,
-    login
+    login,
+    usuarioId,
+    update
 };

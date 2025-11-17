@@ -58,16 +58,23 @@ a {
 
 }
 
+.nav-item  a{
+    color: #c2185b;
+    font-size: 110%;
+  
+}
+
+
 .buttons {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     text-align: center;
-    width: 50%;
+    width: 53%;
     border: none;
-    border-radius: 5px;
-    background-color: #c2185b;
+    border-radius: 0px;
+    background-color: #ffc0cb;
     color: #e599c3;
     font-weight: bold;
     height: 2rem;
@@ -94,8 +101,8 @@ a {
   transition: 0.3s;
 }
 
-.nav-item h1:hover {
-  color: #ff6699;
+.nav-item a:hover {
+  color: #6a1a44;
 }
 
 .buttons {

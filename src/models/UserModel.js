@@ -41,8 +41,54 @@ function login(email, senha) {
     return database.executar(query);
 }
 
+//PROCURA O USUARIO PELO ID
+function usuarioId(id) {
+    const query = `SELECT * FROM usuario WHERE id = ?`
+    return pool
+        .execute(query, [id])
+        .then(([result]) => {
+            if (result.length > 0) {
+                return result[0];
+            }
+            return null;
+        })
+        .catch((error) => {
+            console.log("erro no model de usuário function UsuarioId");
+            throw new Error("ERRO AO PROCURAR USUARIO PELO ID");
+        });
+}
+
+
+//ATUALIZA
+function update(usuario) {
+    const { id, nome, email, qtdGato, sexo, dtNasc, senha } = usuario;
+
+    console.log(usuario);
+
+    const query = `
+        UPDATE usuario
+        SET nome    = ?,
+            email   = ?,
+            qtdGato = ?,
+            sexo    = ?,
+            dtNasc  = ?,
+            senha   = ?
+        WHERE id = ?`;
+
+    return pool
+        .execute(query, [nome, email, qtdGato, sexo, dtNasc, senha, id])
+        .then(([result]) => result)
+        .catch((error) => {
+            console.error("Erro ao atualizar usuário:", error);
+            throw error; 
+        });
+}
+
+
 module.exports = {
     cadastrar,
     verificarEmailExiste,
-    login
+    login,
+    usuarioId,
+    update
 };
