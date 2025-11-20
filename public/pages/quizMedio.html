@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz - CatJournal</title>
+    <link rel="stylesheet" href="../style/quizTodos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Open+Sans:wght@400;600&family=Poppins:wght@400;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-top">
+            <img class="logo-img" src="../img/logo.svg" alt="logo-cat-journal">
+            <h1>CatJournal</h1>
+        </div>
+
+             <nav class="nav-sidebar">
+            <ul>
+                <li><a class="fixar" id="perfil_li" href="../pages/perfilUsuario.html">Perfil</a></li>
+                <li><a href="../pages/preQuiz.html">Quiz</a></li>
+                 <li><a href="../pages/ranking.html">Ranking</a></li>
+                <li><a id="dash_li" href="../pages/dashboard.html">Dashboard</a></li>
+                <li id="admin_manager"><a href="../pages/gestaoUsuarios.html">Gestão de usuários</a></li>
+
+            </ul>
+        </nav>
+
+        <button class="button-sair" onclick="window.location.href='./HomePage.html'">
+            <i class="fa-solid fa-right-from-bracket" style="color: #c2185b;"></i> Sair
+        </button>
+
+        <p class="reserved">© 2024 CatJournal. Todos os direitos reservados.</p>
+    </aside>
+
+    <main class="content">
+    
+        <div class="quiz-card1" id="startCard">
+            <h2>Quiz de Conhecimentos Gerais sobre Gatos - Nível Médio</h2>
+            <button class="btn-enviar1" id="btnJogar">Jogar</button>
+        </div>
+
+        <div class="quiz-card" id="quizBox" style="display:none;">
+            <h2 id="tituloPergunta"></h2>
+            <p id="textoPergunta"></p>
+            <div class="opcoes" id="opcoesPergunta"></div>
+             <button class="btn-enviar" id="btnVoltar">Voltar</button>
+            <button class="btn-enviar" id="btnProximo">Próxima</button>
+        </div>
+    </main>
+
+ <script>
+       window.onload = () => {
+            const userData = JSON.parse(sessionStorage.getItem("usuario"));
+
+            console.log(userData)
+
+            if (!userData) {
+                console.warn("Nenhum usuário no sessionStorage");
+                return;
+            }
+
+
+            const adminLi = document.getElementById("admin_manager");
+            const perfilLi = document.getElementById("perfil_li");
+            const dashboaardLi = document.getElementById("dash_li")
+            if (userData.papelUsuario === "admin") {
+                adminLi.style.display = "block";
+                perfilLi.style.display = "none"
+                dashboaardLi.style.display = "block"
+            } else {
+                adminLi.style.display = "none";
+                perfilLi.style.display = "block"
+                dashboaardLi.style.display = "none"
+            }
+        };
+
+ </script>

@@ -1,42 +1,53 @@
-const express = require("express"); // importa bibblioteca
-const cors = require("cors");
-const path = require("path");
-const { testConection } = require("./src/database/config");
+var ambiente_processo = 'desenvolvimento';
+require("dotenv").config();
 
-const userRouter = require("./src/routes/UserRoutes");
+var express = require("express"); // importa biblioteca
+var cors = require("cors");
+var path = require("path");
+var PORTA_APP = process.env.APP_PORT;
+var HOST_APP = process.env.APP_HOST;
+// const { testConection } = require("./src/database/config");
 
-const app = express();
+var app = express();
+
+var userRouter = require("./src/routes/UserRoutes");
+var quizRouter = require("./src/routes/QuizRoutes");
+
+
 
 // Middlewares
 app.use(express.json()); // transforma corpo da requisição
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use(cors()); // libera no frontEnd
 app.use(express.static(path.join(__dirname, "public"))); // permite acessar os arquivos(html/css/js) pela url
 
 // Rotas
 app.use("/users", userRouter);
+app.use("/quiz", quizRouter);
 
 
-// Inicialização
-function startServer() {
-    testConection()
-        .then((dbConnect) => {
-            if (!dbConnect) {
-                console.log("Não Subiu!");
-                process.exit(1);
-                return;
-            }
 
-            app.listen(3000, function () {
-                console.log("Estamos de Pé na porta 3000");
-            });
-        })
-        .catch(function (error) {
-            console.error("Erro ao inicializar o servidor", error.message);
-            process.exit(1);
-        });
-}
-//pronto para rodar
-startServer();
 
-module.exports = { app };
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "pages", "homePage.html"));
+});
+
+
+app.listen(PORTA_APP, function () {
+    console.log(`
+    ##   ##  ######   #####             ####       ##     ######     ##              ##  ##    ####    ######  
+    ##   ##  ##       ##  ##            ## ##     ####      ##      ####             ##  ##     ##         ##  
+    ##   ##  ##       ##  ##            ##  ##   ##  ##     ##     ##  ##            ##  ##     ##        ##   
+    ## # ##  ####     #####    ######   ##  ##   ######     ##     ######   ######   ##  ##     ##       ##    
+    #######  ##       ##  ##            ##  ##   ##  ##     ##     ##  ##            ##  ##     ##      ##     
+    ### ###  ##       ##  ##            ## ##    ##  ##     ##     ##  ##             ####      ##     ##      
+    ##   ##  ######   #####             ####     ##  ##     ##     ##  ##              ##      ####    ######  
+    \n\n\n                                                                                                 
+    Servidor do seu site já está rodando! Acesse o caminho a seguir para visualizar .: http://${HOST_APP}:${PORTA_APP} :. \n\n
+    Você está rodando sua aplicação em ambiente de .:${process.env.AMBIENTE_PROCESSO}:. \n\n
+    \tSe .:desenvolvimento:. você está se conectando ao banco local. \n
+    \tSe .:producao:. você está se conectando ao banco remoto. \n\n
+    \t\tPara alterar o ambiente, comente ou descomente as linhas 1 ou 2 no arquivo 'app.js'\n\n`);
+});
+
+

@@ -5,6 +5,16 @@
 }
 
 
+
+.mensagem {
+    position: absolute;
+    width: 200px;
+    display: flex;
+    /* background-color: #c2185b; */
+    height: 100px;
+    left: 450px;
+    top: 90px;
+}
 .main {
     display: flex;
     flex-direction: row;

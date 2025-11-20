@@ -33,7 +33,7 @@ function verificarEmailExiste(email) {
 // LOGIN
 function login(email, senha) {
     var query = `
-        SELECT id, nome, email, qtdGato, sexo, dtNasc, mesCadastro 
+        SELECT id, nome, email, qtdGato, sexo, dtNasc, mesCadastro, papelUsuario
         FROM usuario 
         WHERE email = '${email}' AND senha = '${senha}';
     `;

@@ -79,15 +79,10 @@ a {
     font-weight: bold;
     height: 2rem;
     cursor: pointer;
-    transition: all 1s ease;
 
 
 }
 
-.buttons:hover {
-    transform: scale(1.3);
-
-}
 
 
 .nav-item:hover {
@@ -119,9 +114,6 @@ a {
   font-weight: 500;
 }
 
-.buttons:hover {
-  background-color: #ff6699;
-}
 
 /* --- CONTEÚDO --- */
 main.nav-meio {

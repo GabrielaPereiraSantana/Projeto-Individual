@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="../assets/img/cat-solid-full (1).svg" type="image/svg+xml">
     <link rel="stylesheet" href="../style/login.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <title>Login</title>
 </head>
 
@@ -28,7 +28,7 @@
                     <h4>Senha</h4>
                     <input id="iptSenha" type="password" placeholder="Senha"> <br>
 
-                    <button onclick="fazerLogin()" class="button" type="submit"> Login </button>
+                    <button onclick="fazerLogin()" class="button" type="button"> Login </button>
                 </div>
 
                 <div>
@@ -39,63 +39,58 @@
             </div>
             <p id="mensagem" class="mensagem"></p>
 
-            <script>
-                function fazerLogin() {
-                    const emailValor = iptEmail.value;
-                    const senhaValor = iptSenha.value;
+<script>
+    function fazerLogin() {
+        var emailValor = iptEmail.value;
+        var senhaValor = iptSenha.value;
 
-                    fetch("http://localhost:3000/users/login", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            email: emailValor,
-                            senha: senhaValor
-                        }),
-                    })
-                        .then(resposta => {
-                            return resposta.json().then(dados => ({
-                                status: resposta.status,
-                                ok: resposta.ok,
-                                dados: dados
-                            }));
-                        })
-                        .then(result => {
-                            const { status, ok, dados } = result;
+        fetch("/users/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                email: emailValor,
+                senha: senhaValor
+            })
+        })
+            .then(res => res.json().then(dados => ({ status: res.status, dados })))
+            .then(retorno => {
+                var status = retorno.status;
+                var dados = retorno.dados;
 
-                            if (!ok) {
-                                Swal.fire({
-                                    icon: "error",
-                                    title: "Erro",
-                                    text: dados.message || "Falha ao fazer login"
-                                });
-                                return;
-                            }
+            
+                var usuario = dados.data?.[0];
 
-                            Swal.fire({
-                                icon: "success",
-                                title: "Login realizado!",
-                                text: `Bem-vindo(a), ${dados.data.nome}!`,
-                                showConfirmButton: false,
-                                timer: 2000
-                            }).then(() => {
-                                sessionStorage.setItem("usuario", JSON.stringify(dados.data));
+                if (status === 200 && usuario) {
 
-                                if (dados.data.papelUsuario === "admin") {
-                                    window.location.href = "./gestaoUsuario.html";
-                                } else {
-                                    window.location.href = "./perfilUsuario.html";
-                                }
-                            });
-                        })
-                        .catch(error => {
-                            mensagem.textContent = "Erro ao conectar com o servidor. Verifique se a API está rodando.";
-                            mensagem.className = "mensagem erro";
-                            console.error("Erro:", error);
-                        });
+                    mensagem.innerHTML = `Bem-vindo(a), ${usuario.nome}!`;
+
+                    // salvar usuário
+                    sessionStorage.setItem("usuario", JSON.stringify(usuario));
+
+                    if (status === 200 && usuario.papelUsuario === "admin") {
+                         setTimeout(function () {
+                        window.location = "./gestaoUsuario.html";;
+                    }, 1000);
+                        
+                    } else {
+                       setTimeout(function () {
+                        window.location = "./perfilUsuario.html";
+                    }, 1000);
+                       
+                    }
+
+                } else {
+                    mensagem.innerHTML = dados.message;
+                   
                 }
+            })
+            .catch(erro => {
+                mensagem.innerHTML = "Erro ao conectar com o servidor.";
+                console.error(erro);
+            });
+    }
+</script>
 
-
-            </script>
 
 
 </body>
