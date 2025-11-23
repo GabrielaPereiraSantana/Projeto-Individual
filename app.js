@@ -12,6 +12,7 @@ var app = express();
 
 var userRouter = require("./src/routes/UserRoutes");
 var quizRouter = require("./src/routes/QuizRoutes");
+var scoreRouter = require("./src/routes/ScoreRoutes")
 
 
 
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, "public"))); // permite acessar os a
 // Rotas
 app.use("/users", userRouter);
 app.use("/quiz", quizRouter);
+app.use("/score", scoreRouter)
 
 
 

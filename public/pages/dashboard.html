@@ -5,6 +5,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="../style/dashboardAdm.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <title>Dashboard - CatJournal</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -20,16 +21,15 @@
         <h1>CatJournal</h1>
       </div>
 
-        <nav class="nav-sidebar">
-            <ul>
-                <li><a class="fixar" id="perfil_li" href="../pages/perfilUsuario.html">Perfil</a></li>
-                <li><a href="../pages/preQuiz.html">Quiz</a></li>
-                 <li><a href="../pages/ranking.html">Ranking</a></li>
-                <li><a id="dash_li" href="../pages/dashboard.html">Dashboard</a></li>
-                <li id="admin_manager"><a href="../pages/gestaoUsuarios.html">Gestão de usuários</a></li>
+      <nav class="nav-sidebar">
+        <ul>
+          <li><a href="../pages/preQuiz.html">Quiz</a></li>
+          <li><a href="../pages/ranking.html">Ranking</a></li>
+          <li><a id="dash_li" href="../pages/dashboard.html">Dashboard</a></li>
+          <li id="admin_manager"><a href="../pages/gestaoUsuarios.html">Gestão de usuários</a></li>
 
-            </ul>
-        </nav>
+        </ul>
+      </nav>
 
       <button class="button-sair" onclick="window.location.href='./HomePage.html'">
         <i class="fa-solid fa-right-from-bracket" style="color: #c2185b;"></i> Sair
@@ -69,159 +69,197 @@
 
       <section class="graficos">
         <div class="graf-card">
-          <h2>Evolução - Total de Usuários</h2>
+          <h2>Evolução - Cadastro de Usuários</h2>
           <canvas id="graficoUsuarios"></canvas>
         </div>
 
-        <div class="graf-card">
-          <h2>Homens x Mulheres </h2>
-          <canvas id="graficoSexo"></canvas>
-        </div>
 
         <div class="graf-card">
           <h2>Gatos por Usuário </h2>
           <canvas id="graficoGatos"></canvas>
         </div>
 
-        <div class="graf-card">
-          <h2>Média de Idade </h2>
-          <canvas id="graficoIdade"></canvas>
-        </div>
       </section>
     </main>
   </div>
 
-  <script>
-    window.onload = () => {
-      const $ = (id) => window[id];
+<script>
+window.onload = function() {
+    var userData = JSON.parse(sessionStorage.getItem("usuario"));
 
-      const usuariosPorMes = [10, 20, 25, 40, 50, 60, 80, 95, 110, 128];
-      const meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out"];
-      const totalHomens = 21;
-      const totalMulheres = 107;
-      const nomesUsuariosEx = ["Ana", "Bianca", "Carla", "Diego", "Edu", "Fabi", "Gabi"];
-      const gatosPorUsuarioEx = [1, 3, 2, 4, 1, 2, 1];
-      const mediaIdadeMes = [23, 24, 22, 25, 24, 26, 26, 27, 26, 27];
-      const totalUsuarios = usuariosPorMes[usuariosPorMes.length - 1];
+    var adminLi = document.getElementById("admin_manager");
+    var dashboaardLi = document.getElementById("dash_li");
 
-      let somaGatos = 0;
-      for (const quantidade of gatosPorUsuarioEx) {
-        somaGatos += quantidade;
-      }
+    if (userData.papelUsuario === "admin") {
+        adminLi.style.display = "block";
+        dashboaardLi.style.display = "block";
+    } else {
+        adminLi.style.display = "none";
+        dashboaardLi.style.display = "none";
+    }
 
-    
-      let somaIdades = 0;
-      for (const idade of mediaIdadeMes) {
-        somaIdades += idade;
-      }
-      const mediaIdade = Math.round(somaIdades / mediaIdadeMes.length);
+    getCats().then(() => {
+        getAllUsers();
+    });
+};
 
-      kpiUsuarios.innerText = totalUsuarios;
-      kpiSexo.innerText = `${totalHomens} / ${totalMulheres}`;
-      kpiIdade.innerText = `${mediaIdade} anos`;
-      kpiGatos.innerText = somaGatos;
+var qtdMulheres = 0;
+var qtdHomens = 0;
+var qtdUsuarios = 0;
+var mediaDeIdade = 0;
+var qtdGato = 0;
 
-      const rosaEscuro = '#c20459';
-      const rosaClaro = '#ec91b7';
+var qtdUserJaneiro = 0;
+var qtdUserFevereiro = 0;
+var qtdUserMarco = 0;
+var qtdUserAbril = 0;
+var qtdUserMaio = 0;
+var qtdUserJunho = 0;
+var qtdUserJulho = 0;
+var qtdUserAgosto = 0;
+var qtdUserSetembro = 0;
+var qtdUserOutubro = 0;
+var qtdUserNovembro = 0;
+var qtdUserDezembro = 0;
 
-    
-      new Chart(graficoUsuarios.getContext('2d'), {
+var usuariosEGatos = [];
+
+
+function getCats() {
+    return fetch("http://localhost:3000/users/get-cats", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+    })
+    .then(res => res.json())
+    .then(dados => {
+        usuariosEGatos = dados.data || [];
+    })
+    .catch(() => alert("Erro ao carregar gatos"));
+}
+
+
+function getAllUsers() {
+    fetch("http://localhost:3000/users/get-all", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+    })
+    .then(res => res.json())
+    .then(dados => {
+        if (!dados.data || dados.data.length === 0) {
+            alert("Nenhum usuário encontrado!");
+            return;
+        }
+
+        var lista = dados.data;
+
+        qtdMulheres = qtdHomens = qtdGato = 0;
+        mediaDeIdade = 0;
+
+        qtdUserJaneiro = qtdUserFevereiro = qtdUserMarco = qtdUserAbril =
+        qtdUserMaio = qtdUserJunho = qtdUserJulho = qtdUserAgosto =
+        qtdUserSetembro = qtdUserOutubro = qtdUserNovembro = qtdUserDezembro = 0;
+
+        for (var i = 0; i < lista.length; i++) {
+            var u = lista[i];
+
+            if (u.sexo === "Feminino") qtdMulheres++;
+            if (u.sexo === "Masculino") qtdHomens++;
+
+            // idade
+            var hoje = new Date();
+            var nasc = new Date(u.dtNasc);
+            var idade = hoje.getFullYear() - nasc.getFullYear();
+            if (
+                hoje.getMonth() < nasc.getMonth() ||
+                (hoje.getMonth() === nasc.getMonth() && hoje.getDate() < nasc.getDate())
+            ) {
+                idade--;
+            }
+            mediaDeIdade += idade;
+
+            qtdGato += Number(u.qtdGato);
+
+            // mes
+            var mes = Number(u.mesCadastro);
+            if (mes === 1) qtdUserJaneiro++;
+            else if (mes === 2) qtdUserFevereiro++;
+            else if (mes === 3) qtdUserMarco++;
+            else if (mes === 4) qtdUserAbril++;
+            else if (mes === 5) qtdUserMaio++;
+            else if (mes === 6) qtdUserJunho++;
+            else if (mes === 7) qtdUserJulho++;
+            else if (mes === 8) qtdUserAgosto++;
+            else if (mes === 9) qtdUserSetembro++;
+            else if (mes === 10) qtdUserOutubro++;
+            else if (mes === 11) qtdUserNovembro++;
+            else if (mes === 12) qtdUserDezembro++;
+        }
+
+        qtdUsuarios = lista.length;
+        mediaDeIdade = Math.round(mediaDeIdade / qtdUsuarios);
+
+        // KPIs
+        document.getElementById("kpiUsuarios").innerText = qtdUsuarios;
+        document.getElementById("kpiSexo").innerText = qtdHomens + " | " + qtdMulheres;
+        document.getElementById("kpiIdade").innerText = mediaDeIdade + " anos";
+        document.getElementById("kpiGatos").innerText = qtdGato;
+
+        criarGraficos();
+    })
+    .catch(() => alert("Erro ao carregar usuários"));
+}
+
+
+function criarGraficos() {
+    var cores = { primario: '#c20459', suave: '#ec91b7' };
+
+    // GRÁFICO: Usuários por mês
+    var ctx1 = document.getElementById('graficoUsuarios').getContext('2d');
+    new Chart(ctx1, {
         type: 'line',
         data: {
-          labels: meses,
-          datasets: [{
-            label: 'Total de usuários',
-            data: usuariosPorMes,
-            borderColor: rosaEscuro,
-            backgroundColor: 'rgba(194,4,89,0.12)',
-            borderWidth: 3,
-            tension: 0.3,
-            pointRadius: 4
-          }]
+            labels: ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"],
+            datasets: [{
+                data: [
+                    qtdUserJaneiro, qtdUserFevereiro, qtdUserMarco, qtdUserAbril,
+                    qtdUserMaio, qtdUserJunho, qtdUserJulho, qtdUserAgosto,
+                    qtdUserSetembro, qtdUserOutubro, qtdUserNovembro, qtdUserDezembro
+                ],
+                borderColor: cores.primario,
+                backgroundColor: 'rgba(194, 4, 89, 0.2)',
+                borderWidth: 3,
+                tension: 0.3
+            }]
         },
-        options: {
-          responsive: true,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { ticks: { color: '#444' }, grid: { display: false } },
-            y: { ticks: { color: '#444' }, grid: { color: '#fde6ee' } }
-          }
-        }
-      });
+        options: { plugins: { legend: { display: false } } }
+    });
 
-  
-      new Chart(graficoSexo.getContext('2d'), {
+    // GRÁFICO: Gatos por usuário
+    var ctx2 = document.getElementById('graficoGatos').getContext('2d');
+
+    var labels = usuariosEGatos.map(u => u.nome);
+    var dados = usuariosEGatos.map(u => u.qtdGato);
+
+    new Chart(ctx2, {
         type: 'bar',
         data: {
-          labels: ['Homens', 'Mulheres'],
-          datasets: [{
-            data: [totalHomens, totalMulheres],
-            backgroundColor: [rosaClaro, rosaEscuro],
-            borderRadius: 8,
-            maxBarThickness: 50
-          }]
+            labels: labels,
+            datasets: [{
+                data: dados,
+                backgroundColor: cores.suave,
+                borderColor: cores.primario,
+                borderWidth: 2,
+                borderRadius: 10
+            }]
         },
         options: {
-          responsive: true,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { ticks: { color: '#444' }, grid: { display: false } },
-            y: { ticks: { color: '#444' }, grid: { color: '#fde6ee' }, beginAtZero: true }
-          }
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true } }
         }
-      });
+    });
+}
+</script>
 
-  
-      new Chart(graficoGatos.getContext('2d'), {
-        type: 'bar',
-        data: {
-          labels: nomesUsuariosEx,
-          datasets: [{
-            label: 'Qtd de gatos',
-            data: gatosPorUsuarioEx,
-            backgroundColor: rosaClaro,
-            borderColor: rosaEscuro,
-            borderWidth: 2,
-            borderRadius: 8
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { ticks: { color: '#444' }, grid: { display: false } },
-            y: { ticks: { color: '#444' }, grid: { color: '#fde6ee' }, beginAtZero: true }
-          }
-        }
-      });
-
-      new Chart(graficoIdade.getContext('2d'), {
-        type: 'bar',
-        data: {
-          labels: meses,
-          datasets: [{
-            label: 'Média de idade',
-            data: mediaIdadeMes,
-            borderColor: rosaEscuro,
-            backgroundColor: 'rgba(255,130,159,0.12)',
-            borderWidth: 3,
-            tension: 0.3,
-            pointRadius: 4,
-            fill: true
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { ticks: { color: '#444' }, grid: { display: false } },
-            y: { ticks: { color: '#444' }, grid: { color: '#fde6ee' } }
-          }
-        }
-      });
-    };
-
-  </script>
 
 </body>
 

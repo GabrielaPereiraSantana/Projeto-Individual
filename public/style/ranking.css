@@ -108,6 +108,29 @@ body {
 }
 
 
+.container {
+    display: flex;
+    min-height: 100vh
+}
+
+
+.content {
+    flex: 1;
+    padding: 40px 48px;
+    margin-left: 18%;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.header h1 {
+    color: #c20459;
+    font-size: 36px;
+}
+
+
 .container-quiz {
     margin-left: 270px;
     padding: 30px;

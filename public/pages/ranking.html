@@ -11,80 +11,148 @@
 </head>
 
 <body>
-
-    <div class="container">
-        <aside class="sidebar">
-            <div class="sidebar-top">
-                <img class="logo-img" src="../img/logo.svg" alt="logo-cat-journal">
-                <h1>CatJournal</h1>
-            </div>
-
-            <nav class="nav-sidebar">
-                <ul>
-                    <li><a class="fixar" id="perfil_li" href="../pages/perfilUsuario.html">Perfil</a></li>
-                    <li><a href="../pages/preQuiz.html">Quiz</a></li>
-                    <li><a href="../pages/ranking.html">Ranking</a></li>
-                    <li><a id="dash_li" href="../pages/dashboard.html">Dashboard</a></li>
-                    <li id="admin_manager"><a href="../pages/gestaoUsuarios.html">Gestão de usuários</a></li>
-
-                </ul>
-            </nav>
-
-            <button class="button-sair" onclick="window.location.href='./HomePage.html'">
-                <i class="fa-solid fa-right-from-bracket" style="color: #c2185b;"></i> Sair
-            </button>
-
-            <p class="reserved">© 2024 CatJournal. Todos os direitos reservados.</p>
-        </aside>
-        <div class="container-quiz">
-            <h2>Ranking do Quiz</h2>
-
-            <div class="ranking-card">
-                <table>
-                    <tr>
-                        <th>Posição</th>
-                        <th>Usuário</th>
-                        <th>Pontuação</th>
-                    </tr>
-
-                    <tr>
-                        <td> 1º</td>
-                        <td>Ana Beatriz</td>
-                        <td>980 pts</td>
-                    </tr>
-
-                    <tr>
-                        <td> 2º</td>
-                        <td>Letícia Souza</td>
-                        <td>940 pts</td>
-                    </tr>
-
-                    <tr>
-                        <td> 3º</td>
-                        <td>Mariana Lopes</td>
-                        <td>910 pts</td>
-                    </tr>
-
-                    <tr>
-                        <td>4º</td>
-                        <td>Julia Mendes</td>
-                        <td>880 pts</td>
-                    </tr>
-
-                    <tr>
-                        <td>5º</td>
-                        <td>Gabi Santana</td>
-                        <td>860 pts</td>
-                    </tr>
-
-                </table>
-            </div>
+    <aside class="sidebar">
+        <div class="sidebar-top">
+            <img class="logo-img" src="../img/logo.svg" alt="logo-cat-journal">
+            <h1>CatJournal</h1>
         </div>
 
-      <script>
+        <nav class="nav-sidebar">
+            <ul>
+                <li><a class="fixar" href="../pages/preQuiz.html">Quiz</a></li>
+                <li><a href="../pages/ranking.html">Ranking</a></li>
+                <li><a id="dash_li" href="../pages/dashboard.html">Dashboard</a></li>
+                <li id="admin_manager"><a href="../pages/gestaoUsuarios.html">Gestão de usuários</a></li>
 
-</script>
+            </ul>
+        </nav>
+
+        <button class="button-sair" onclick="window.location.href='./HomePage.html'">
+            <i class="fa-solid fa-right-from-bracket" style="color: #c2185b;"></i> Sair
+        </button>
+
+        <p class="reserved">© 2024 CatJournal. Todos os direitos reservados.</p>
+    </aside>
+    <div class="container-quiz">
+        <h2>Ranking do Quiz</h2>
+
+        <div class="ranking-card">
+            <table>
+                <tr>
+                    <th>Posição</th>
+                    <th>Usuário</th>
+                    <th>Pontuação</th>
+                </tr>
+
+                <tr>
+                    <td> 1º</td>
+                    <td>Ana Beatriz</td>
+                    <td>980 pts</td>
+                </tr>
+
+                <tr>
+                    <td> 2º</td>
+                    <td>Letícia Souza</td>
+                    <td>940 pts</td>
+                </tr>
+
+                <tr>
+                    <td> 3º</td>
+                    <td>Mariana Lopes</td>
+                    <td>910 pts</td>
+                </tr>
+
+                <tr>
+                    <td>4º</td>
+                    <td>Julia Mendes</td>
+                    <td>880 pts</td>
+                </tr>
+
+                <tr>
+                    <td>5º</td>
+                    <td>Gabi Santana</td>
+                    <td>860 pts</td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
 
 </body>
+<script>
+    window.onload = () => {
+        const userData = JSON.parse(sessionStorage.getItem("usuario"));
+
+
+        const adminLi = document.getElementById("admin_manager");
+
+        const dashboaardLi = document.getElementById("dash_li")
+        if (userData.papelUsuario === "admin") {
+            adminLi.style.display = "block";
+            dashboaardLi.style.display = "block"
+        } else {
+            adminLi.style.display = "none";
+            dashboaardLi.style.display = "none"
+        }
+    };
+
+    function carregarRanking() {
+        console.log()
+
+        fetch("http://localhost:3000/score/ranking")
+            .then(function (resposta) {
+                return resposta.json();
+            })
+            .then(function (dados) {
+
+                // pega a tabela do HTML
+                var tabela = document.querySelector(".ranking-card table");
+
+                // coloca só o cabeçalho
+                tabela.innerHTML = `
+                <tr>
+                    <th>Posição</th>
+                    <th>Usuário</th>
+                    <th>Pontuação</th>
+                </tr>
+            `;
+
+                // o backend já manda uma lista direto
+                var lista = dados.data;
+
+                // para cada usuário do ranking
+                for (var i = 0; i < lista.length; i++) {
+
+                    var posicao = (i + 1) + "º";
+                    var nome = lista[i].nome;
+                    var pontos = lista[i].totalPontos + " pts";
+
+                    tabela.innerHTML += `
+                    <tr>
+                        <td>${posicao}</td>
+                        <td>${nome}</td>
+                        <td>${pontos}</td>
+                    </tr>
+                `;
+                }
+
+            })
+            .catch(function (erro) {
+
+                var tabela = document.querySelector(".ranking-card table");
+
+                tabela.innerHTML += `
+                <tr>
+                    <td colspan="3">Erro ao carregar ranking 😿</td>
+                </tr>
+            `;
+            });
+    }
+
+  
+
+    carregarRanking();
+
+</script>
 
 </html>

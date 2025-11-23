@@ -21,11 +21,10 @@
             <h1>CatJournal</h1>
         </div>
 
-         <nav class="nav-sidebar">
+          <nav class="nav-sidebar">
             <ul>
-                <li><a class="fixar" id="perfil_li" href="../pages/perfilUsuario.html">Perfil</a></li>
-                <li><a href="../pages/preQuiz.html">Quiz</a></li>
-                 <li><a href="../pages/ranking.html">Ranking</a></li>
+                <li><a class="fixar" href="../pages/preQuiz.html">Quiz</a></li>
+                <li><a href="../pages/ranking.html">Ranking</a></li>
                 <li><a id="dash_li" href="../pages/dashboard.html">Dashboard</a></li>
                 <li id="admin_manager"><a href="../pages/gestaoUsuarios.html">Gestão de usuários</a></li>
 
@@ -80,5 +79,22 @@
     </main>
 
 </body>
+<script>
+      window.onload = () => {
+            const userData = JSON.parse(sessionStorage.getItem("usuario"));
+
+        
+            const adminLi = document.getElementById("admin_manager");
+
+            const dashboaardLi = document.getElementById("dash_li")
+            if (userData.papelUsuario === "admin") {
+                adminLi.style.display = "block";
+                dashboaardLi.style.display = "block"
+            } else {
+                adminLi.style.display = "none";
+                dashboaardLi.style.display = "none"
+            }
+        };
+</script>
 
 </html>

@@ -97,45 +97,43 @@ function usuarioId(req, res) {
 }
 
 
-function update(req, res) {
-    const { nome, email, senha, qtdGato, sexo, dtNasc } = req.body;
-    const { id } = req.params;
-
-    userModel.UsuarioId(id)
-        .then((usuarioEncontrado) => {
-            if (usuarioEncontrado == null) {
-                return res.status(404).json({
-                    message: "Usuário não encontrado"
-                });
-            }
-
-            return userModel.update({ id, nome, email, senha, qtdGato, sexo, dtNasc });
+function getAllUsers(req, res) {
+    userModel.getAll()
+        .then(usuariosAchados => {
+            return res.status(200).json({
+                message: "Usuários encontrados!",
+                data: usuariosAchados 
+            });
         })
-        .then((result) => {
-            if (!result) return; 
-
-            if (result.affectedRows > 0) {
-                return res.status(200).json({
-                    message: "Usuário atualizado com sucesso"
-                });
-            } else {
-                return res.status(400).json({
-                    message: "Nenhuma alteração realizada"
-                });
-            }
-        })
-        .catch((error) => {
-            console.error("Erro no update:", error);
-            res.status(500).json({
+        .catch(error => {
+            return res.status(500).json({
                 message: "ERROR INTERNO",
                 errorInfo: error.message
             });
         });
 }
 
+function getCats(req, res) {
+    userModel.getCats()
+    .then(gatosEncontrados => {
+        return res.status(200).json({
+            message: "Gatos Encontrados",
+            data: gatosEncontrados
+        })
+    })
+    .catch (error => {
+        return res.status(500).json({
+            message: "ERROR INTERNO",
+            errorInfo: error.message
+        });
+    });
+}
+
+
 module.exports = {
     cadastrar,
     login,
     usuarioId,
-    update
+    getAllUsers,
+    getCats
 };

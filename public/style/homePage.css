@@ -113,6 +113,8 @@ a {
 }
 
 
+
+
 /* CONTEÚDO */
 .nav-meio {
     display: flex;
@@ -167,15 +169,10 @@ a {
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
     background-color: #ffc0cb;
     margin: 10px;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
 
 .card #card1 {
     width: 100%;
@@ -210,19 +207,19 @@ a {
 }
 
 .card h3 {
-    font-size: 20px;
-    font-weight: bold;
-    color: #efe8e3;
+    font-size: 19px;
+    color: #b30059;
     margin-bottom: 30px;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .card p {
-    font-size: 20px;
+    font-size: 15px;
     line-height: 2.0;
     display: flex;
-    color: #00271A;
+    color: #c2185c87;
     margin-bottom: 80px;
+    margin-left: 10px;
     text-align: center;
 }
 

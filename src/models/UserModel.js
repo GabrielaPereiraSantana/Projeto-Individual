@@ -43,10 +43,12 @@ function login(email, senha) {
 
 //PROCURA O USUARIO PELO ID
 function usuarioId(id) {
-    const query = `SELECT * FROM usuario WHERE id = ?`
-    return pool
-        .execute(query, [id])
-        .then(([result]) => {
+    const query = `
+        SELECT * FROM usuario 
+        WHERE id = ${id};
+    `;
+    return database.executar(query)
+        .then(result => {
             if (result.length > 0) {
                 return result[0];
             }
@@ -54,41 +56,32 @@ function usuarioId(id) {
         })
         .catch((error) => {
             console.log("erro no model de usuário function UsuarioId");
-            throw new Error("ERRO AO PROCURAR USUARIO PELO ID");
+            throw new Error("ERRO AO PROCURAR USUARIO PELO ID: " + error.message);
         });
 }
 
 
-//ATUALIZA
-function update(usuario) {
-    const { id, nome, email, qtdGato, sexo, dtNasc, senha } = usuario;
-
-    console.log(usuario);
-
-    const query = `
-        UPDATE usuario
-        SET nome    = ?,
-            email   = ?,
-            qtdGato = ?,
-            sexo    = ?,
-            dtNasc  = ?,
-            senha   = ?
-        WHERE id = ?`;
-
-    return pool
-        .execute(query, [nome, email, qtdGato, sexo, dtNasc, senha, id])
-        .then(([result]) => result)
-        .catch((error) => {
-            console.error("Erro ao atualizar usuário:", error);
-            throw error; 
-        });
+// BUSCAR TODOS USUÁRIOS
+function getAll() {
+    var instrucaoSql = `
+        SELECT * FROM usuario;
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
 }
 
+
+function getCats() {
+    var instrucaoSql = `SELECT id, nome, email, qtdGato FROM usuario ORDER BY qtdGato DESC`
+    console.log("Executando a instrução SQL:  \n" + instrucaoSql)
+    return database.executar(instrucaoSql);
+}
 
 module.exports = {
     cadastrar,
     verificarEmailExiste,
     login,
     usuarioId,
-    update
+    getAll,
+    getCats
 };
