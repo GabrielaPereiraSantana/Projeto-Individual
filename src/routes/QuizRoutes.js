@@ -5,5 +5,4 @@ const router = express.Router()
 router.get("/get-quiz/:id", quizController.getQuiz)
 
 
-
 module.exports = router

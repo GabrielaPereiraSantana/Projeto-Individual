@@ -174,7 +174,7 @@ main.nav-meio h1 {
     margin-left: 100%;
     border-radius: 10px;
     width: 55%;
-    
+
 }
 
 
@@ -231,7 +231,7 @@ main.nav-meio3 {
 footer {
     background-color: #ffd6e0b1;
     color: #c2185b;
-    padding: 30px 5%;
+    padding: 10px 5%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -243,7 +243,7 @@ footer {
     flex-wrap: wrap;
     width: 100%;
     max-width: 120%;
-    margin-bottom: 5px;
+    margin-bottom: -10px;
     align-items: flex-start;
 }
 
@@ -269,8 +269,7 @@ footer {
 }
 
 
-.footer-secao,
-.footer-social {
+.footer-secao {
     flex-direction: row;
     justify-content: center;
     width: 50%;
@@ -279,8 +278,7 @@ footer {
     margin: 10px;
 }
 
-.footer-secao h3,
-.footer-social h3 {
+.footer-secao h3 {
     font-size: 1.1rem;
     margin-bottom: 15px;
     color: #c2185b;
@@ -298,29 +296,14 @@ footer {
     font-size: 0.9rem;
     margin-bottom: 8px;
     display: block;
-    transition: color 0.3s ease;
 }
 
 .footer-secao ul li a:hover {
     color: #e599c3;
 }
 
-.footer-social .icones {
-    display: flex;
-    gap: 15px;
-}
 
-.footer-social .icones a img {
-    width: 30px;
-    height: 30px;
-    transition: transform 0.3s ease;
-}
-
-.footer-social .icones a img:hover {
-    transform: scale(1.1);
-}
-
-.footer-copyright {
+.footer-direitos {
     border-top: 1px solid #c2185c2f;
     padding-top: 15px;
     margin-top: 10px;

@@ -69,12 +69,12 @@
 
                     if (status === 200 && usuario.papelUsuario === "admin") {
                          setTimeout(function () {
-                        window.location = "./dashboard.html";;
+                        window.location = "dashboard.html";;
                     }, 1000);
                         
                     } else {
                        setTimeout(function () {
-                        window.location = "./preQuiz.html";
+                        window.location = "preQuiz.html";
                     }, 1000);
                        
                     }
@@ -89,6 +89,8 @@
                 console.error(erro);
             });
     }
+
+    
 </script>
 
 

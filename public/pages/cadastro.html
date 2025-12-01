@@ -38,7 +38,7 @@
                     </div>
                     <h4>Qual sua data de nascimento? </h4>
                     <input id="iptDtNasc" type="date" placeholder="Insira sua idade">
-                    <p> Já tem uma conta? <a href="./Login.html"> Login </a> </p>
+                    <p> Já tem uma conta? <a href="./login.html"> Login </a> </p>
                     <button class="button" onclick="cadastrarUsuario()"> Cadastrar </button>
                 </div>
 
@@ -51,15 +51,19 @@
             <p id="mensagem" class="mensagem"></p>
 
 <script>
+
+
 function cadastrarUsuario() {
     console.log("Iniciando cadastro...");
 
-    const nomeValor = iptName.value;
-    const emailValor = iptEmail.value;
-    const senhaValor = iptSenha.value;
-    const qtdGatoValor = iptGato.value;
-    const sexoValor = sexo.value;
-    const dtNascValor = iptDtNasc.value;
+    var nomeValor = iptName.value;
+    var emailValor = iptEmail.value5
+    var senhaValor = iptSenha.value;
+    var qtdGatoValor = iptGato.value;
+    var sexoValor = sexo.value;
+    var dtNascValor = iptDtNasc.value;
+        
+  
 
     fetch("/users/cadastrar", {
         method: "POST",
@@ -83,7 +87,7 @@ function cadastrarUsuario() {
             mensagem.innerHTML = `Cadastro realizado com sucesso! Bem-vindo(a), ${nomeValor}!`;
 
             setTimeout(() => {
-                window.location.href = "./Login.html";
+                window.location.href = "./login.html";
             }, 1500);
 
         // Email já cadastrado
@@ -103,6 +107,8 @@ function cadastrarUsuario() {
 }
 
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
+
+
 
 
 </script>

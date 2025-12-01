@@ -30,7 +30,7 @@
         </ul>
       </nav>
 
-      <button class="button-sair" onclick="window.location.href='./HomePage.html'">
+      <button class="button-sair" onclick="window.location.href='./homePage.html'">
         <i class="fa-solid fa-right-from-bracket" style="color: #c2185b;"></i> Sair
       </button>
 
@@ -85,15 +85,11 @@
 <script>
 window.onload = function() {
     var userData = JSON.parse(sessionStorage.getItem("usuario"));
-
-    var adminLi = document.getElementById("admin_manager");
     var dashboaardLi = document.getElementById("dash_li");
 
     if (userData.papelUsuario === "admin") {
-        adminLi.style.display = "block";
         dashboaardLi.style.display = "block";
     } else {
-        adminLi.style.display = "none";
         dashboaardLi.style.display = "none";
     }
 

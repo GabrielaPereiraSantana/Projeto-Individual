@@ -6,13 +6,14 @@ var cors = require("cors");
 var path = require("path");
 var PORTA_APP = process.env.APP_PORT;
 var HOST_APP = process.env.APP_HOST;
-// const { testConection } = require("./src/database/config");
+
 
 var app = express();
 
 var userRouter = require("./src/routes/UserRoutes");
 var quizRouter = require("./src/routes/QuizRoutes");
-var scoreRouter = require("./src/routes/ScoreRoutes")
+var scoreRouter = require("./src/routes/ScoreRoutes");
+var indexRouter = require("./src/routes/index");
 
 
 
@@ -23,6 +24,7 @@ app.use(cors()); // libera no frontEnd
 app.use(express.static(path.join(__dirname, "public"))); // permite acessar os arquivos(html/css/js) pela url
 
 // Rotas
+app.use("/", indexRouter)
 app.use("/users", userRouter);
 app.use("/quiz", quizRouter);
 app.use("/score", scoreRouter)
@@ -30,9 +32,9 @@ app.use("/score", scoreRouter)
 
 
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "pages", "homePage.html"));
-});
+// app.get("/", (req, res) => {
+//   res.sendFile(path.join(__dirname, "public", "pages", "homePage.html"));
+// });
 
 
 app.listen(PORTA_APP, function () {

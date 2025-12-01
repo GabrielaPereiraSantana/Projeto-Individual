@@ -25,12 +25,11 @@
                 <li><a class="fixar" href="../pages/preQuiz.html">Quiz</a></li>
                 <li><a href="../pages/ranking.html">Ranking</a></li>
                 <li><a id="dash_li" href="../pages/dashboard.html">Dashboard</a></li>
-                <li id="admin_manager"><a href="../pages/gestaoUsuarios.html">Gestão de usuários</a></li>
 
             </ul>
         </nav>
 
-        <button class="button-sair" onclick="window.location.href='./HomePage.html'">
+        <button class="button-sair" onclick="window.location='./homePage.html'">
             <i class="fa-solid fa-right-from-bracket" style="color: #c2185b;"></i> Sair
         </button>
 
@@ -52,21 +51,17 @@
             <button class="btn-enviar" id="btnProximo">Próxima</button>
         </div>
     </main>
-
-    <script>
-        window.onload = () => {
+<script>
             const userData = JSON.parse(sessionStorage.getItem("usuario"));
+            const dashboaardLi = document.getElementById("dash_li");
 
-            const adminLi = document.getElementById("admin_manager");
-            const dashboaardLi = document.getElementById("dash_li")
             if (userData.papelUsuario === "admin") {
-                adminLi.style.display = "block";
+            
                 dashboaardLi.style.display = "block"
             } else {
-                adminLi.style.display = "none";
                 dashboaardLi.style.display = "none"
             }
-        };
+    
 
 
 
@@ -147,7 +142,6 @@
                 .catch(() => alert("Erro ao carregar quiz"));
         }
 
-
         function carregarPergunta() {
             bloqueado = false;
 
@@ -215,7 +209,7 @@
                 if (i === certa) {
                     labels[i].style.background = "#c8e6c9"; // verde claro
                     labels[i].style.border = "2px solid #2e7d32"; // verde escuro
-                } public / pages / quizDificil.html
+                }
                 if (i === resposta && resposta !== certa) {
                     labels[i].style.background = "#ffcdd2"; // vermelho claro
                     labels[i].style.border = "2px solid #c62828"; // vermelho escuro
@@ -229,6 +223,7 @@
 
             return true;
         }
+
         btnJogar.onclick = function () {
             if (perguntas.length === 0) {
                 alert("O quiz ainda está carregando, tente novamente em alguns segundos.");
@@ -246,6 +241,7 @@
             setTimeout(() => {
                 index++;
                 if (index >= perguntas.length) {
+
                     quizBox.innerHTML = `
                 <h2>Quiz Finalizado!</h2>
                 <p>Você acertou <strong>${acertos}</strong> de <strong>${perguntas.length}</strong> perguntas! 🎉🐱</p>
@@ -267,7 +263,6 @@
             }
         };
 
-
         function enviarPontuacao(idUsuario, idQuiz, totalPontuacao) {
             fetch("http://localhost:3000/score/pontuar", {
                 method: "POST",
@@ -278,20 +273,20 @@
                     totalPontuacao: totalPontuacao
                 })
             })
+                // 1. Verifica se a resposta HTTP é OK
                 .then(res => {
                     if (!res.ok) {
-
+                        // Se a resposta for 500, lança um erro para cair no catch
                         throw new Error('Falha na inserção da pontuação. Status: ' + res.status);
                     }
                     return res.json();
                 })
                 .then(resposta => {
                     console.log("Pontuação enviada com sucesso!", resposta);
-                    carregarRanking();
+                    carregarRanking(); //  Atualiza o ranking
                 })
-                .catch(erro => console.error("Erro ao enviar pontuação:", erro));
+                .catch(erro => console.error("Erro ao enviar pontuação:", erro)); // Trata qualquer erro
         }
 
         carregarQuiz();
-
-    </script>
+</script>

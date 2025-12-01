@@ -58,10 +58,10 @@ a {
 
 }
 
-.nav-item  a{
+.nav-item a {
     color: #c2185b;
     font-size: 110%;
-  
+
 }
 
 
@@ -88,28 +88,28 @@ a {
 }
 
 .nav-item h1 {
-  font-size: 1rem;
-  color: #b30059;
-  cursor: pointer;
-  transition: 0.3s;
+    font-size: 1rem;
+    color: #b30059;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
 .nav-item a:hover {
-   color: #6a1a44;
+    color: #6a1a44;
 }
 
 .buttons {
-  background-color: #b30059;
-  border: none;
-  border-radius: 10px;
-  padding: 0.4rem 1rem;
-  cursor: pointer;
+    background-color: #b30059;
+    border: none;
+    border-radius: 10px;
+    padding: 0.4rem 1rem;
+    cursor: pointer;
 }
 
 .buttons a {
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
 }
 
 
@@ -265,7 +265,7 @@ a {
     font-size: 18px;
     color: #c2185b;
     margin-bottom: 20px;
-     line-height: 1.8;
+    line-height: 1.8;
 }
 
 .button-saiba-mais2 {
@@ -280,6 +280,11 @@ a {
     font-weight: 500;
     font-size: 15px;
     transition: background 0.3s;
+}
+
+.button-saiba-mais2 a{
+     color: #c2185b;
+
 }
 
 .button-saiba-mais2:hover {
@@ -302,7 +307,7 @@ a {
     padding: 0% 0% 2% 0%;
 }
 
-.video {
+.imagem-adotar {
     width: 50%;
     margin-right: -9%;
     height: auto;
@@ -332,8 +337,8 @@ a {
     font-size: 18px;
     color: #c2185b;
     margin-bottom: 20px;
-     line-height: 1.8;
-  
+    line-height: 1.8;
+
 }
 
 .button-adote {
@@ -349,42 +354,32 @@ a {
     font-size: 15px;
     font-weight: 500;
     transition: background 0.3s;
-    animation: pisca 2s linear infinite ;
-    transition: all 1s ease;
 }
 
 .button-adote:hover {
     background-color: #c2185c87;
-    transform: scale(1.2);
 }
 
-@keyframes pisca{
-    0%{opacity: 1;}
-    25%{opacity: 0;}
-    50%{opacity: 0;}
-    75%{opacity: 1;}
-    100%{opacity: 1;}
-}
+
 
 footer {
-    background-color: #ffd6e0b1; 
+    background-color: #ffd6e0b1;
     color: #c2185b;
-    padding: 30px 5%; 
-    display: flex; 
+    padding: 10px 5%;
+    display: flex;
     flex-direction: column;
-    align-items: center; 
+    align-items: center;
 }
 
 .footer-conteudo {
     display: flex;
-    justify-content: space-around; 
-    flex-wrap: wrap; 
-    width: 100%; 
-    max-width: 120%; 
-    margin-bottom: 5px;
-    align-items: flex-start; 
+    justify-content: space-around;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 120%;
+    margin-bottom: -10px;
+    align-items: flex-start;
 }
-
 
 .footer-logo {
     display: flex;
@@ -392,7 +387,7 @@ footer {
     align-items: center;
     text-align: center;
     font-size: 1rem;
-    width: 30%; 
+    width: 30%;
     margin: 10px;
 }
 
@@ -403,28 +398,28 @@ footer {
 }
 
 .footer-logo h1 {
-    font-size: 1.5rem; 
+    font-size: 1.5rem;
     color: #c2185b;
 }
 
 
-.footer-secao, .footer-social {
-     flex-direction: row;
-     justify-content: center;
-     width: 50%;
-    flex: 1; 
-    min-width: 150px; 
+.footer-secao {
+    flex-direction: row;
+    justify-content: center;
+    width: 50%;
+    flex: 1;
+    min-width: 150px;
     margin: 10px;
 }
 
-.footer-secao h3, .footer-social h3 {
+.footer-secao h3 {
     font-size: 1.1rem;
     margin-bottom: 15px;
     color: #c2185b;
 }
 
 .footer-secao ul {
-    list-style: none; 
+    list-style: none;
     padding: 0;
     margin: 0;
 }
@@ -434,30 +429,15 @@ footer {
     text-decoration: none;
     font-size: 0.9rem;
     margin-bottom: 8px;
-    display: block; 
-    transition: color 0.3s ease;
+    display: block;
 }
 
 .footer-secao ul li a:hover {
-    color: #e599c3; 
+    color: #e599c3;
 }
 
-.footer-social .icones {
-    display: flex;
-    gap: 15px;
-}
 
-.footer-social .icones a img { 
-    width: 30px; 
-    height: 30px;
-    transition: transform 0.3s ease;
-}
-
-.footer-social .icones a img:hover {
-    transform: scale(1.1);
-}
-
-.footer-copyright {
+.footer-direitos {
     border-top: 1px solid #c2185c2f;
     padding-top: 15px;
     margin-top: 10px;
@@ -465,3 +445,18 @@ footer {
     font-size: 0.8rem;
     width: 110%;
 }
+
+ /* .links {
+            margin-top: 30px;
+        }
+        a {
+            display: block;
+            margin: 12px auto;
+            width: fit-content;
+            padding: 12px 22px;
+            background-color: #ffcad4;
+            color: #7a1f3d;
+            font-weight: 600;
+            text-decoration: none;
+        } */
+      

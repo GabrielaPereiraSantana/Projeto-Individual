@@ -10,6 +10,8 @@ function cadastrar(req, res) {
 
     if (!nome || !email || !senha || !sexo) {
         return res.status(400).json({ message: "Campos obrigatórios não preenchidos." });
+    } if (email.include("@" && email.includes("."))) {
+         return res.status(400).json({ message: "Campos obrigatórios não preenchidos." });
     }
 
     userModel.verificarEmailExiste(email)
