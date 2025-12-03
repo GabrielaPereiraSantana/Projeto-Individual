@@ -1,4 +1,4 @@
-var ambiente_processo = 'desenvolvimento';
+var AMBIENTE_PROCESSO = 'desenvolvimento';
 require("dotenv").config();
 
 var express = require("express"); // importa biblioteca

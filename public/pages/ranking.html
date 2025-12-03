@@ -94,7 +94,7 @@
     function carregarRanking() {
         console.log()
 
-        fetch("http://localhost:3000/score/ranking")
+        fetch("/score/ranking")
             .then(function (resposta) {
                 return resposta.json();
             })

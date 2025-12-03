@@ -8,11 +8,10 @@ function cadastrar(req, res) {
     var sexo = req.body.sexo;
     var dtNasc = req.body.dtNasc;
 
-    if (!nome || !email || !senha || !sexo) {
-        return res.status(400).json({ message: "Campos obrigatórios não preenchidos." });
-    } if (email.include("@" && email.includes("."))) {
-         return res.status(400).json({ message: "Campos obrigatórios não preenchidos." });
-    }
+    // if (!nome || !email || !senha || !sexo) {
+    //     return res.status(400).json({ message: "Campos obrigatórios não preenchidos." });
+    // }
+
 
     userModel.verificarEmailExiste(email)
         .then(resultado => {
@@ -47,10 +46,15 @@ function login(req, res) {
         return res.status(400).json({ message: "Campos obrigatórios não preenchidos." });
     }
 
+    console.log(email, senha, "aaaaaaaaaaaaaaaaaaaaaaa")
+
     userModel.login(email, senha)
         .then((usuarioEncontrado) => {
 
-            if (usuarioEncontrado == null) {
+            console.log("usuario encontrado:", usuarioEncontrado)
+
+            if (usuarioEncontrado.length <= 0) {
+                
                 return res.status(404).json({ message: "Email ou senha inválidos" });
             }
 

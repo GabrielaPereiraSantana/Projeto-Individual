@@ -265,7 +265,7 @@
         };
 
         function enviarPontuacao(idUsuario, idQuiz, totalPontuacao) {
-            fetch("http://localhost:3000/score/pontuar", {
+            fetch("/score/pontuar", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

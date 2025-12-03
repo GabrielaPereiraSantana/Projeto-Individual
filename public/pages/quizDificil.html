@@ -52,13 +52,13 @@
         </div>
     </main>
 <script>
-            const userData = JSON.parse(sessionStorage.getItem("usuario"));
-            const dashboaardLi = document.getElementById("dash_li");
+    const userData = JSON.parse(sessionStorage.getItem("usuario"));
 
+            const dashboaardLi = document.getElementById("dash_li")
             if (userData.papelUsuario === "admin") {
-            
                 dashboaardLi.style.display = "block"
             } else {
+
                 dashboaardLi.style.display = "none"
             }
     
@@ -67,7 +67,7 @@
 
         let usuario = JSON.parse(sessionStorage.getItem("usuario"));
         let userId = usuario.id;
-        let quizId = 3;
+        let quizId = 2;
         let index = 0;
         let acertos = 0;
         let bloqueado = false;
@@ -141,6 +141,7 @@
                 })
                 .catch(() => alert("Erro ao carregar quiz"));
         }
+
 
         function carregarPergunta() {
             bloqueado = false;
@@ -241,7 +242,6 @@
             setTimeout(() => {
                 index++;
                 if (index >= perguntas.length) {
-
                     quizBox.innerHTML = `
                 <h2>Quiz Finalizado!</h2>
                 <p>Você acertou <strong>${acertos}</strong> de <strong>${perguntas.length}</strong> perguntas! 🎉🐱</p>
@@ -264,7 +264,7 @@
         };
 
         function enviarPontuacao(idUsuario, idQuiz, totalPontuacao) {
-            fetch("http://localhost:3000/score/pontuar", {
+            fetch("/score/pontuar", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -283,10 +283,11 @@
                 })
                 .then(resposta => {
                     console.log("Pontuação enviada com sucesso!", resposta);
-                    carregarRanking(); //  Atualiza o ranking
+                    carregarRanking(); // ✅ Atualiza o ranking
                 })
-                .catch(erro => console.error("Erro ao enviar pontuação:", erro)); // Trata qualquer erro
+                .catch(erro => console.error("Erro ao enviar pontuação:", erro)); // ✅ Trata qualquer erro
         }
+
 
         carregarQuiz();
 </script>

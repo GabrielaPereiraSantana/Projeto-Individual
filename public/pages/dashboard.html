@@ -121,7 +121,7 @@ var usuariosEGatos = [];
 
 
 function getCats() {
-    return fetch("http://localhost:3000/users/get-cats", {
+    return fetch("/users/get-cats", {
         method: "GET",
         headers: { "Content-Type": "application/json" }
     })
@@ -134,7 +134,7 @@ function getCats() {
 
 
 function getAllUsers() {
-    fetch("http://localhost:3000/users/get-all", {
+    fetch("/users/get-all", {
         method: "GET",
         headers: { "Content-Type": "application/json" }
     })
