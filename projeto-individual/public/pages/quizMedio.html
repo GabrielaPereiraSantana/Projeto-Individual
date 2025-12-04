@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz - CatJournal</title>
+    <link rel="stylesheet" href="../style/quizTodos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Open+Sans:wght@400;600&family=Poppins:wght@400;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-top">
+            <img class="logo-img" src="../img/logo.svg" alt="logo-cat-journal">
+            <h1>CatJournal</h1>
+        </div>
+
+        <nav class="nav-sidebar">
+            <ul>
+                <li><a  href="../pages/preQuiz.html">Quiz</a></li>
+                <li><a href="../pages/ranking.html">Ranking</a></li>
+                <li><a id="dash_li" href="../pages/dashboard.html">Dashboard</a></li>
+
+            </ul>
+        </nav>
+
+        <button class="button-sair" onclick="window.location.href='./homePage.html'">
+            <i class="fa-solid fa-right-from-bracket" style="color: #c2185b;"></i> Sair
+        </button>
+
+        <p class="reserved">© 2024 CatJournal. Todos os direitos reservados.</p>
+    </aside>
+
+    <main class="content">
+
+        <div class="quiz-card1" id="startCard">
+            <h2>Quiz de Conhecimentos Gerais sobre Gatos - Nível Médio</h2>
+            <button class="btn-enviar1" id="btnJogar">Jogar</button>
+        </div>
+
+        <div class="quiz-card" id="quizBox" style="display:none;">
+            <h2 id="tituloPergunta"></h2>
+            <p id="textoPergunta"></p>
+            <div class="opcoes" id="opcoesPergunta"></div>
+            <button class="btn-enviar" id="btnVoltar">Voltar</button>
+            <button class="btn-enviar" id="btnProximo">Próxima</button>
+        </div>
+    </main>
+
+    <script>
+            const userData = JSON.parse(sessionStorage.getItem("usuario"));
+
+            const dashboaardLi = document.getElementById("dash_li")
+            if (userData.papelUsuario === "admin") {
+                dashboaardLi.style.display = "block"
+            } else {
+
+                dashboaardLi.style.display = "none"
+            }
+    
+
+
+
+        let usuario = JSON.parse(sessionStorage.getItem("usuario"));
+        let userId = usuario.id;
+        let quizId = 2;
+        let index = 0;
+        let acertos = 0;
+        let bloqueado = false;
+
+
+        let perguntas = [];
+
+        const startCard = document.getElementById("startCard");
+        const quizBox = document.getElementById("quizBox");
+        const titulo = document.getElementById("tituloPergunta");
+        const textoPergunta = document.getElementById("textoPergunta");
+        const opcoes = document.getElementById("opcoesPergunta");
+
+        const btnJogar = document.getElementById("btnJogar");
+        const btnProximo = document.getElementById("btnProximo");
+        const btnVoltar = document.getElementById("btnVoltar");
+
+        function carregarQuiz() {
+
+
+            fetch("/quiz/get-quiz/" + quizId, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+                //o backend responde, transforma em json
+                .then(resposta => resposta.json())
+
+                // recebe o JSON já convertido em js
+                .then(dados => {
+                    if (!dados.data || dados.data.length == 0) {
+                        alert("Nenhum quiz foi encontrado!")
+                        return;
+                    }
+
+                    let perguntasOrganizadas = [];
+
+                    //percore toda a lista que veio do backend
+                    for (let i = 0; i < dados.data.length; i++) {
+
+                        let item = dados.data[i];
+                        let perguntaJaExiste = false;
+                        let indicePergunta = -1;
+
+                        // Verifica se a pergunta já está na lista perguntasOrganizadas
+                        for (let index = 0; index < perguntasOrganizadas.length; index++) {
+                            if (perguntasOrganizadas[index].id === item.perguntaId) {
+                                perguntaJaExiste = true;
+                                indicePergunta = index;
+                                break;
+                            }
+                        }
+                        // Se a pergunta NÃO existe ainda cria ela
+                        if (!perguntaJaExiste) {
+                            perguntasOrganizadas.push({
+                                id: item.perguntaId,
+                                titulo: item.pergunta,
+                                opcoes: []
+                            });
+
+                            indicePergunta = perguntasOrganizadas.length - 1;
+                        }
+                        //adiciona a resposta dentro da pergunta correta
+                        perguntasOrganizadas[indicePergunta].opcoes.push({
+                            texto: item.resposta,
+                            correta: item.correta == 1
+                        })
+                    }
+                    perguntas = perguntasOrganizadas;
+                })
+                .catch(() => alert("Erro ao carregar quiz"));
+        }
+
+
+        function carregarPergunta() {
+            bloqueado = false;
+
+            // Pega a pergunta atual
+            var questao = perguntas[index];
+            if (!questao) return; // se não existir pergunta, para a função
+
+            // Mostra o número da pergunta e o texto
+            titulo.innerHTML = "Pergunta " + (index + 1);
+            textoPergunta.innerHTML = questao.titulo;
+
+
+            opcoes.innerHTML = "";
+
+            // Mostra cada opção
+            for (var i = 0; i < questao.opcoes.length; i++) {
+                var opcao = questao.opcoes[i];
+
+                // Cria o HTML da opção e adiciona
+                opcoes.innerHTML += '<label class="opcao-label">' +
+                    '<input type="radio" name="questao" value="' + i + '">' +
+                    opcao.texto +
+                    '</label>';
+            }
+        }
+
+
+
+        function validarResposta() {
+            // Se já estiver bloqueado, não faz nada
+            if (bloqueado) return false;
+
+            // Pega a opção selecionada
+            var selecionada = document.querySelector("input[name='questao']:checked");
+
+            // Se nenhuma opção foi selecionada, avisa e sai
+            if (!selecionada) {
+                alert("Selecione uma opção!");
+                return false;
+            }
+
+            // Bloqueia para não selecionar novamente
+            bloqueado = true;
+
+            // Converte o valor selecionado para número
+            var resposta = parseInt(selecionada.value);
+
+            // Pega a pergunta atual
+            var questao = perguntas[index];
+
+            // Descobre qual é a opção correta
+            var certa = -1;
+            for (var i = 0; i < questao.opcoes.length; i++) {
+                if (questao.opcoes[i].correta) {
+                    certa = i;
+                    break;
+                }
+            }
+
+            // Pega todos os labels das opções
+            var labels = document.querySelectorAll(".opcao-label");
+
+            // Marca as cores: verde para correta, vermelho para errada
+            for (var i = 0; i < labels.length; i++) {
+                if (i === certa) {
+                    labels[i].style.background = "#c8e6c9"; // verde claro
+                    labels[i].style.border = "2px solid #2e7d32"; // verde escuro
+                }
+                if (i === resposta && resposta !== certa) {
+                    labels[i].style.background = "#ffcdd2"; // vermelho claro
+                    labels[i].style.border = "2px solid #c62828"; // vermelho escuro
+                }
+            }
+
+            // Se acertou, soma 1 aos acertos
+            if (resposta === certa) {
+                acertos++;
+            }
+
+            return true;
+        }
+
+        btnJogar.onclick = function () {
+            if (perguntas.length === 0) {
+                alert("O quiz ainda está carregando, tente novamente em alguns segundos.");
+                return;
+            }
+            startCard.style.display = "none";
+            quizBox.style.display = "block";
+            carregarPergunta();
+        };
+
+        btnProximo.onclick = function () {
+            const respondeu = validarResposta();
+            if (!respondeu) return;
+
+            setTimeout(() => {
+                index++;
+                if (index >= perguntas.length) {
+                    quizBox.innerHTML = `
+                <h2>Quiz Finalizado!</h2>
+                <p>Você acertou <strong>${acertos}</strong> de <strong>${perguntas.length}</strong> perguntas! 🎉🐱</p>
+                <button class="btn-enviar" onclick="window.location.href='../pages/ranking.html'">
+                    Ver Ranking
+                </button>
+            `;
+                    enviarPontuacao(userId, quizId, acertos)
+                    return;
+                }
+                carregarPergunta();
+            }, 500);
+        };
+
+        btnVoltar.onclick = function () {
+            if (index > 0) {
+                index--;
+                carregarPergunta();
+            }
+        };
+
+        function enviarPontuacao(idUsuario, idQuiz, totalPontuacao) {
+            fetch("/score/pontuar", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    idUsuario: idUsuario,
+                    idQuiz: idQuiz,
+                    totalPontuacao: totalPontuacao
+                })
+            })
+                // 1. Verifica se a resposta HTTP é OK
+                .then(res => {
+                    if (!res.ok) {
+                        // Se a resposta for 500, lança um erro para cair no catch
+                        throw new Error('Falha na inserção da pontuação. Status: ' + res.status);
+                    }
+                    return res.json();
+                })
+                .then(resposta => {
+                    console.log("Pontuação enviada com sucesso!", resposta);
+                    carregarRanking(); // ✅ Atualiza o ranking
+                })
+                .catch(erro => console.error("Erro ao enviar pontuação:", erro)); // ✅ Trata qualquer erro
+        }
+
+
+        carregarQuiz();
+
+    </script>

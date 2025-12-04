@@ -1,0 +1,173 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+
+}
+
+html,
+
+body {
+    height: 100%;
+}
+
+body {
+    background: #fff8e79d;
+    color: #c2185cbe;
+    min-height: 100vh;
+}
+
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 18%;
+    height: 100vh;
+    background: #ffd6e0b1;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 28px 20px;
+    z-index: 100;
+}
+
+.sidebar-top h1 {
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    color: #c2185b;
+    align-items: center;
+    font-size: 1.2rem;
+
+}
+
+.logo-img {
+    width: 60px;
+    height: auto;
+    margin-right: 8px;
+    display: block;
+
+}
+
+.nav-sidebar ul {
+    list-style: none;
+    margin-top: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.nav-sidebar a {
+    display: block;
+    color: #c2185b;
+    text-decoration: none;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.nav-sidebar a:hover {
+    background: rgba(255, 255, 255, 0.04);
+    color: #fe8dc6;
+}
+
+.button-sair {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #c2185b;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-right: 19px;
+    border: none;
+    background-color: #ffd6e0b1;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: "Poppins", sans-serif;
+}
+
+.button-sair:hover {
+    background: rgba(255, 255, 255, 0.04);
+    color: #fe8dc6;
+}
+
+.reserved {
+    text-align: center;
+    font-size: 9px;
+    color: #c2185b;
+}
+
+.fixar {
+    background: #c2185c2b;
+    color: #c2185b;
+}
+
+
+.container {
+    display: flex;
+    min-height: 100vh
+}
+
+
+.content {
+    flex: 1;
+    padding: 40px 48px;
+    margin-left: 18%;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.header h1 {
+    color: #c20459;
+    font-size: 36px;
+}
+
+
+.container-quiz {
+    margin-left: 270px;
+    padding: 30px;
+    width: calc(100% - 270px);
+}
+
+h2 {
+    color: #C2185B;
+    text-align: center;
+    margin-bottom: 40px;
+    margin-top: 100px;
+    font-size: 2rem;
+}
+
+.ranking-card {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    width: 70%;
+    margin: auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 18px;
+}
+
+th,
+td {
+    padding: 15px;
+    text-align: left;
+}
+
+th {
+    background: #FFE3EB;
+    color: #C2185B;
+}
+
