@@ -32,9 +32,7 @@ app.use("/score", scoreRouter)
 
 
 
-// app.get("/", (req, res) => {
-//   res.sendFile(path.join(__dirname, "public", "pages", "homePage.html"));
-// });
+
 
 
 app.listen(PORTA_APP, function () {

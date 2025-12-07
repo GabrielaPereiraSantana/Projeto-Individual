@@ -8,9 +8,6 @@ function cadastrar(req, res) {
     var sexo = req.body.sexo;
     var dtNasc = req.body.dtNasc;
 
-    // if (!nome || !email || !senha || !sexo) {
-    //     return res.status(400).json({ message: "Campos obrigatórios não preenchidos." });
-    // }
 
 
     userModel.verificarEmailExiste(email)

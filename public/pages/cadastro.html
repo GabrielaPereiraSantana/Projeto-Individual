@@ -94,7 +94,7 @@ function cadastrarUsuario() {
         } else if (status === 409) {
             mensagem.innerHTML = "Este e-mail já está cadastrado. Tente outro ou faça login.";
 
-        // Outros erros
+
         } else {
             mensagem.innerHTML = dados.message || "Erro ao cadastrar usuário.";
             

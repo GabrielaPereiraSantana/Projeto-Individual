@@ -66,7 +66,6 @@
     
 
 
-
         let usuario = JSON.parse(sessionStorage.getItem("usuario"));
         let userId = usuario.id;
         let quizId = 2;
@@ -162,8 +161,6 @@
             // Mostra cada opção
             for (var i = 0; i < questao.opcoes.length; i++) {
                 var opcao = questao.opcoes[i];
-
-                // Cria o HTML da opção e adiciona
                 opcoes.innerHTML += '<label class="opcao-label">' +
                     '<input type="radio" name="questao" value="' + i + '">' +
                     opcao.texto +
@@ -207,15 +204,15 @@
             // Pega todos os labels das opções
             var labels = document.querySelectorAll(".opcao-label");
 
-            // Marca as cores: verde para correta, vermelho para errada
+            // Marca as cores
             for (var i = 0; i < labels.length; i++) {
                 if (i === certa) {
-                    labels[i].style.background = "#c8e6c9"; // verde claro
-                    labels[i].style.border = "2px solid #2e7d32"; // verde escuro
+                    labels[i].style.background = "#c8e6c9";
+                    labels[i].style.border = "2px solid #2e7d32"; 
                 }
                 if (i === resposta && resposta !== certa) {
-                    labels[i].style.background = "#ffcdd2"; // vermelho claro
-                    labels[i].style.border = "2px solid #c62828"; // vermelho escuro
+                    labels[i].style.background = "#ffcdd2"; 
+                    labels[i].style.border = "2px solid #c62828"; 
                 }
             }
 
@@ -275,7 +272,7 @@
                     totalPontuacao: totalPontuacao
                 })
             })
-                // 1. Verifica se a resposta HTTP é OK
+              
                 .then(res => {
                     if (!res.ok) {
                         // Se a resposta for 500, lança um erro para cair no catch
@@ -285,9 +282,9 @@
                 })
                 .then(resposta => {
                     console.log("Pontuação enviada com sucesso!", resposta);
-                    carregarRanking(); // ✅ Atualiza o ranking
+                    carregarRanking(); //  Atualiza o ranking
                 })
-                .catch(erro => console.error("Erro ao enviar pontuação:", erro)); // ✅ Trata qualquer erro
+                .catch(erro => console.error("Erro ao enviar pontuação:", erro)); 
         }
 
 
